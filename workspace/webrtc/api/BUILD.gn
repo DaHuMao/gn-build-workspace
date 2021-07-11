@@ -1,0 +1,50 @@
+import("../webrtc.gni")
+if (is_android) {
+  import("//build/config/android/config.gni")
+  import("//build/config/android/rules.gni")
+}
+
+group("api") {
+  visibility = [ "*" ]
+  deps = []
+
+ # if (!build_with_mozilla) {
+ #   deps += [ ":libjingle_peerconnection_api" ]
+ # }
+}
+
+rtc_source_set("scoped_refptr") {
+  visibility = [ "*" ]
+  sources = [ "scoped_refptr.h" ]
+}
+
+rtc_source_set("array_view") {
+  visibility = [ "*" ]
+  sources = [ "array_view.h" ]
+  deps = [
+    "../rtc_base:checks",
+    "../rtc_base:type_traits",
+  ]
+}
+
+rtc_source_set("sequence_checker") {
+  visibility = [ "*" ]
+  sources = [ "sequence_checker.h" ]
+  deps = [
+    "../rtc_base:checks",
+    "../rtc_base:macromagic",
+    "../rtc_base/synchronization:sequence_checker_internal",
+  ]
+}
+
+rtc_source_set("function_view") {
+  visibility = [ "*" ]
+  sources = [ "function_view.h" ]
+  deps = [ "../rtc_base:checks" ]
+}
+
+rtc_source_set("refcountedbase") {
+  visibility = [ "*" ]
+  sources = [ "ref_counted_base.h" ]
+  deps = [ "../rtc_base:rtc_base_approved" ]
+}

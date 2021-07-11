@@ -1,5 +1,6 @@
 function RunAndLog(){
   $1 || { echo faild run: $1 && exit 1; }
+  echo =========== success run $1 =========================
 }
 
 function ListeningRunProgress(){

@@ -1,0 +1,282 @@
+import("//common.gni")
+
+if (!build_with_chromium && is_component_build) {
+  print("The Gn argument `is_component_build` is currently " +
+        "ignored for WebRTC builds.")
+  print("Component builds are supported by Chromium and the argument " +
+        "`is_component_build` makes it possible to create shared libraries " +
+        "instead of static libraries.")
+  print("If an app depends on WebRTC it makes sense to just depend on the " +
+        "WebRTC static library, so there is no difference between " +
+        "`is_component_build=true` and `is_component_build=false`.")
+  print(
+      "More info about component builds at: " + "https://chromium.googlesource.com/chromium/src/+/master/docs/component_build.md")
+  assert(!is_component_build, "Component builds are not supported in WebRTC.")
+}
+
+declare_args() {
+  # Setting this to true will make RTC_EXPORT (see rtc_base/system/rtc_export.h)
+  # expand to code that will manage symbols visibility.
+  rtc_enable_symbol_export = false
+
+  # Setting this to true will define WEBRTC_EXCLUDE_FIELD_TRIAL_DEFAULT which
+  # will tell the pre-processor to remove the default definition of symbols
+  # needed to use field_trial. In that case a new implementation needs to be
+  # provided.
+  if (build_with_chromium) {
+    # When WebRTC is built as part of Chromium it should exclude the default
+    # implementation of field_trial unless it is building for NACL or
+    # Chromecast.
+    rtc_exclude_field_trial_default = !is_nacl && !is_chromecast
+  } else {
+    rtc_exclude_field_trial_default = false
+  }
+
+  # Setting this to true will define WEBRTC_EXCLUDE_METRICS_DEFAULT which
+  # will tell the pre-processor to remove the default definition of symbols
+  # needed to use metrics. In that case a new implementation needs to be
+  # provided.
+  rtc_exclude_metrics_default = build_with_chromium
+
+  # Setting this to true will define WEBRTC_EXCLUDE_SYSTEM_TIME which
+  # will tell the pre-processor to remove the default definition of the
+  # SystemTimeNanos() which is defined in rtc_base/system_time.cc. In
+  # that case a new implementation needs to be provided.
+  rtc_exclude_system_time = build_with_chromium
+
+  # Setting this to false will require the API user to pass in their own
+  # SSLCertificateVerifier to verify the certificates presented from a
+  # TLS-TURN server. In return disabling this saves around 100kb in the binary.
+  rtc_builtin_ssl_root_certificates = true
+
+  # Include the iLBC audio codec?
+  rtc_include_ilbc = true
+
+  # Disable this to avoid building the Opus audio codec.
+  rtc_include_opus = true
+
+  # Enable this if the Opus version upon which WebRTC is built supports direct
+  # encoding of 120 ms packets.
+  rtc_opus_support_120ms_ptime = true
+
+  # Enable this to let the Opus audio codec change complexity on the fly.
+  rtc_opus_variable_complexity = false
+
+  # Used to specify an external Jsoncpp include path when not compiling the
+  # library that comes with WebRTC (i.e. rtc_build_json == 0).
+  rtc_jsoncpp_root = "//third_party/jsoncpp/source/include"
+
+  # Used to specify an external OpenSSL include path when not compiling the
+  # library that comes with WebRTC (i.e. rtc_build_ssl == 0).
+  rtc_ssl_root = ""
+
+  # Enable when an external authentication mechanism is used for performing
+  # packet authentication for RTP packets instead of libsrtp.
+  rtc_enable_external_auth = build_with_chromium
+
+  # Selects whether debug dumps for the audio processing module
+  # should be generated.
+  apm_debug_dump = false
+
+  # Selects whether the audio processing module should be excluded.
+  rtc_exclude_audio_processing_module = false
+
+  # Set this to true to enable BWE test logging.
+  rtc_enable_bwe_test_logging = false
+
+  # Set this to false to skip building examples.
+  rtc_build_examples = false 
+
+  # Set this to false to skip building tools.
+  rtc_build_tools = false 
+
+  # Set this to false to skip building code that requires X11.
+  rtc_use_x11 = use_x11
+
+  # Set this to use PipeWire on the Wayland display server.
+  # By default it's only enabled on desktop Linux (excludes ChromeOS) and
+  # only when using the sysroot as PipeWire is not available in older and
+  # supported Ubuntu and Debian distributions.
+  rtc_use_pipewire = is_linux && use_sysroot
+
+  # Set this to link PipeWire directly instead of using the dlopen.
+  rtc_link_pipewire = false
+
+  # Set this to use certain PipeWire version
+  # Currently WebRTC supports PipeWire 0.2 and PipeWire 0.3 (default)
+  rtc_pipewire_version = "0.3"
+
+  # Enable to use the Mozilla internal settings.
+  build_with_mozilla = false
+
+  # Experimental: enable use of Android AAudio which requires Android SDK 26 or above
+  # and NDK r16 or above.
+  rtc_enable_android_aaudio = false
+
+  # Set to "func", "block", "edge" for coverage generation.
+  # At unit test runtime set UBSAN_OPTIONS="coverage=1".
+  # It is recommend to set include_examples=0.
+  # Use llvm's sancov -html-report for human readable reports.
+  # See http://clang.llvm.org/docs/SanitizerCoverage.html .
+  rtc_sanitize_coverage = ""
+
+  # Selects fixed-point code where possible.
+  rtc_prefer_fixed_point = false
+  if (current_cpu == "arm" || current_cpu == "arm64") {
+    rtc_prefer_fixed_point = true
+  }
+
+  # Determines whether NEON code will be built.
+  rtc_build_with_neon =
+      (current_cpu == "arm" && arm_use_neon) || current_cpu == "arm64"
+
+  # Enable this to build OpenH264 encoder/FFmpeg decoder. This is supported on
+  # all platforms except Android and iOS. Because FFmpeg can be built
+  # with/without H.264 support, |ffmpeg_branding| has to separately be set to a
+  # value that includes H.264, for example "Chrome". If FFmpeg is built without
+  # H.264, compilation succeeds but |H264DecoderImpl| fails to initialize.
+  # CHECK THE OPENH264, FFMPEG AND H.264 LICENSES/PATENTS BEFORE BUILDING.
+  # http://www.openh264.org, https://www.ffmpeg.org/
+  #
+  # Enabling H264 when building with MSVC is currently not supported, see
+  # bugs.webrtc.org/9213#c13 for more info.
+  rtc_use_h264 =
+      proprietary_codecs && !is_android && !is_ios && !(is_win && !is_clang)
+
+  # Enable this flag to make webrtc::Mutex be implemented by absl::Mutex.
+  rtc_use_absl_mutex = false
+
+  # By default, use normal platform audio support or dummy audio, but don't
+  # use file-based audio playout and record.
+  rtc_use_dummy_audio_file_devices = false
+
+  # When set to true, replace the audio output with a sinus tone at 440Hz.
+  # The ADM will ask for audio data from WebRTC but instead of reading real
+  # audio samples from NetEQ, a sinus tone will be generated and replace the
+  # real audio samples.
+  rtc_audio_device_plays_sinus_tone = false
+
+  if (is_ios) {
+    # Build broadcast extension in AppRTCMobile for iOS. This results in the
+    # binary only running on iOS 11+, which is why it is disabled by default.
+    rtc_apprtcmobile_broadcast_extension = false
+  }
+
+  # Determines whether Metal is available on iOS/macOS.
+  rtc_use_metal_rendering = is_mac || (is_ios && current_cpu == "arm64")
+
+  # When set to false, builtin audio encoder/decoder factories and all the
+  # audio codecs they depend on will not be included in libwebrtc.{a|lib}
+  # (they will still be included in libjingle_peerconnection_so.so and
+  # WebRTC.framework)
+  rtc_include_builtin_audio_codecs = true
+
+  # When set to false, builtin video encoder/decoder factories and all the
+  # video codecs they depends on will not be included in libwebrtc.{a|lib}
+  # (they will still be included in libjingle_peerconnection_so.so and
+  # WebRTC.framework)
+  rtc_include_builtin_video_codecs = true
+
+  # When set to true and in a standalone build, it will undefine UNICODE and
+  # _UNICODE (which are always defined globally by the Chromium Windows
+  # toolchain).
+  # This is only needed for testing purposes, WebRTC wants to be sure it
+  # doesn't assume /DUNICODE and /D_UNICODE but that it explicitly uses
+  # wide character functions.
+  rtc_win_undef_unicode = false
+
+  # When set to true, a capturer implementation that uses the
+  # Windows.Graphics.Capture APIs will be available for use. These APIs are
+  # available in the Win 10 SDK v10.0.19041.
+  rtc_enable_win_wgc = false
+  build_with_mozilla = false 
+}
+
+#if (!build_with_mozilla) {
+#  import("//testing/test.gni")
+#}
+
+# A second declare_args block, so that declarations within it can
+# depend on the possibly overridden variables in the first
+# declare_args block.
+declare_args() {
+  # Enables the use of protocol buffers for debug recordings.
+  rtc_enable_protobuf =  false
+
+  # Set this to disable building with support for SCTP data channels.
+  rtc_enable_sctp =  false 
+
+  # Disable these to not build components which can be externally provided.
+  rtc_build_json = !build_with_mozilla
+  rtc_build_libsrtp = false 
+  rtc_build_libvpx = false 
+  rtc_libvpx_build_vp9 = false 
+  rtc_build_opus = false 
+  rtc_build_ssl = !build_with_mozilla
+  rtc_build_usrsctp = !build_with_mozilla
+
+  # Enable libevent task queues on platforms that support it.
+  if (is_win || is_mac || is_ios || is_nacl || is_fuchsia ||
+      target_cpu == "wasm") {
+    rtc_enable_libevent = false
+    rtc_build_libevent = false
+  } else {
+    rtc_enable_libevent = true
+    rtc_build_libevent = !build_with_mozilla
+  }
+
+  # Build sources requiring GTK. NOTICE: This is not present in Chrome OS
+  # build environments, even if available for Chromium builds.
+  rtc_use_gtk = !build_with_chromium && !build_with_mozilla
+
+  # Excluded in Chromium since its prerequisites don't require Pulse Audio.
+  rtc_include_pulse_audio = !build_with_chromium
+
+  # Chromium uses its own IO handling, so the internal ADM is only built for
+  # standalone WebRTC.
+  rtc_include_internal_audio_device = !build_with_chromium
+
+  # Set this to true to enable the avx2 support in webrtc.
+  # TODO: Make sure that AVX2 works also for non-clang compilers.
+  if (is_clang == true) {
+    rtc_enable_avx2 = true
+  } else {
+    rtc_enable_avx2 = false
+  }
+
+  # Set this to true to build the unit tests.
+  # Disabled when building with Chromium or Mozilla.
+  rtc_include_tests = !build_with_chromium && !build_with_mozilla
+  rtc_include_tests = false
+
+  # Set this to false to skip building code that also requires X11 extensions
+  # such as Xdamage, Xfixes.
+  rtc_use_x11_extensions = rtc_use_x11
+
+  # Set this to true to fully remove logging from WebRTC.
+  rtc_disable_logging = false
+
+  # Set this to true to disable trace events.
+  rtc_disable_trace_events = false
+
+  # Set this to true to disable detailed error message and logging for
+  # RTC_CHECKs.
+  rtc_disable_check_msg = false
+
+  # Set this to true to disable webrtc metrics.
+  rtc_disable_metrics = false
+
+  # Set this to true to exclude the transient suppressor in the audio processing
+  # module from the build.
+  rtc_exclude_transient_suppressor = false
+}
+
+# Make it possible to provide custom locations for some libraries (move these
+# up into declare_args should we need to actually use them for the GN build).
+rtc_libvpx_dir = "//third_party/libvpx"
+rtc_opus_dir = "//third_party/opus"
+
+# Desktop capturer is supported only on Windows, OSX and Linux.
+rtc_desktop_capture_supported =
+    (is_win && current_os != "winuwp") || is_mac ||
+    ((is_linux || is_chromeos) && (rtc_use_x11_extensions || rtc_use_pipewire))

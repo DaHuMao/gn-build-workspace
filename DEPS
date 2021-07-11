@@ -53,7 +53,18 @@ deps = {
 
 
   'third_party/llvm-build':
-  'https://github.com/DaHuMao/llvm-build.git@2eacd39252f667fc415096f980eeb7249edff795'
+  'https://github.com/DaHuMao/llvm-build.git@2eacd39252f667fc415096f980eeb7249edff795',
+
+  'third_party/googletest/src':
+    'https://chromium.googlesource.com/external/github.com/google/googletest.git@1a8ecf1813d022cc7914e04564b92decff6161fc',
+
+  'third_party/google_benchmark/src': {
+    'url': 'https://chromium.googlesource.com/external/github.com/google/benchmark.git@ffe1342eb2faa7d2e7c35b4db2ccf99fab81ec20',
+  },
+
+  'src/third_party/boringssl/src':
+    'https://boringssl.googlesource.com/boringssl.git@49f0329110a1d93a5febc2bceceedc655d995420',
+
 }
 
 hooks = []

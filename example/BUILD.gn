@@ -1,5 +1,17 @@
+import("//common.gni")
 executable("tutorial") {
   sources = [
     "tutorial.cc",
+  ]
+
+  include_dirs = [
+    ".",
+    "../workspace/webrtc",
+  ]
+
+  deps = [
+    "//workspace/webrtc/modules/audio_device",
+    "//workspace/webrtc/api/task_queue:default_task_queue_factory",
+    "//third_party/abseil-cpp/absl/strings",
   ]
 }
