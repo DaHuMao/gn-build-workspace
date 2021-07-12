@@ -66,8 +66,7 @@ deps = {
     'https://boringssl.googlesource.com/boringssl.git@49f0329110a1d93a5febc2bceceedc655d995420',
 
   'testing':
-    'https://chromium.googlesource.com/chromium/src/testing@1dfac10176f59013751bd72969627e4d7cf73361',
-
+    'https://chromium.googlesource.com/chromium/src/testing@0db537b72006c9ec7b75214bf2c728443b77bf4d',
 
 }
 
