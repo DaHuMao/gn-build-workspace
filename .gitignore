@@ -3,6 +3,5 @@ buildtools
 tools
 build
 out
-third_party
 .gclient_entries
 .vscode
