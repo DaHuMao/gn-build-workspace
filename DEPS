@@ -62,8 +62,12 @@ deps = {
     'url': 'https://chromium.googlesource.com/external/github.com/google/benchmark.git@ffe1342eb2faa7d2e7c35b4db2ccf99fab81ec20',
   },
 
-  'src/third_party/boringssl/src':
+  'third_party/boringssl/src':
     'https://boringssl.googlesource.com/boringssl.git@49f0329110a1d93a5febc2bceceedc655d995420',
+
+  'testing':
+    'https://chromium.googlesource.com/chromium/src/testing@1dfac10176f59013751bd72969627e4d7cf73361',
+
 
 }
 
