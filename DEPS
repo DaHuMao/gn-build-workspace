@@ -68,6 +68,8 @@ deps = {
   'testing':
     'https://chromium.googlesource.com/chromium/src/testing@0db537b72006c9ec7b75214bf2c728443b77bf4d',
 
+  'third_party/ffmpeg/src':
+    'https://github.com/FFmpeg/FFmpeg.git@fdd45ebf5563564a23e93d6c6bdcc43d481b419c'
 }
 
 hooks = []

@@ -1,6 +1,7 @@
 group("tools") {
   deps = [
     "//example:tutorial",
+    "//workspace/audio-engine:audio-engine",
     #"//workspace/webrtc/modules/audio_device",
   ]
 }
@@ -12,5 +13,6 @@ group("tools") {
 config("all_include_config") {
   include_dirs = [
     "./workspace/webrtc",
+    "./workspace/",
   ]
 }
