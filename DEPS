@@ -51,6 +51,9 @@ deps = {
   'buildtools/third_party/libunwind/trunk':
     'https://chromium.googlesource.com/external/github.com/llvm/llvm-project/libunwind.git@cc80b4ac985d1c05a3d24dc96e4ffa7e98dbc535',
 
+  'third_party/jsoncpp/source':
+    'https://chromium.googlesource.com/external/github.com/open-source-parsers/jsoncpp.git@9059f5cad030ba11d37818847443a53918c327b1', # from svn 248
+
 
   'third_party/llvm-build':
   'https://github.com/DaHuMao/llvm-build.git@2eacd39252f667fc415096f980eeb7249edff795',
@@ -70,6 +73,10 @@ deps = {
 
   'third_party/ffmpeg/src':
     'https://github.com/FFmpeg/FFmpeg.git@fdd45ebf5563564a23e93d6c6bdcc43d481b419c'
+
+  'third_party/libyuv':
+    'https://chromium.googlesource.com/libyuv/libyuv.git@a8c181050c202854ae32433164e6bd5d1e7c4368',
+
 }
 
 hooks = []
