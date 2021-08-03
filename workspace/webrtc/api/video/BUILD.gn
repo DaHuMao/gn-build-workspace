@@ -1,0 +1,40 @@
+# Copyright (c) 2018 The WebRTC project authors. All Rights Reserved.
+#
+# Use of this source code is governed by a BSD-style license
+# that can be found in the LICENSE file in the root of the source
+# tree. An additional intellectual property rights grant can be found
+# in the file PATENTS.  All contributing project authors may
+# be found in the AUTHORS file in the root of the source tree.
+
+import("../../webrtc.gni")
+if (is_android) {
+  import("//build/config/android/config.gni")
+  import("//build/config/android/rules.gni")
+}
+
+rtc_library("video_rtp_headers") {
+  visibility = [ "*" ]
+  sources = [
+    "color_space.cc",
+    "color_space.h",
+    "hdr_metadata.cc",
+    "hdr_metadata.h",
+    "video_content_type.cc",
+    "video_content_type.h",
+    "video_rotation.h",
+    "video_timing.cc",
+    "video_timing.h",
+  ]
+
+  deps = [
+    "..:array_view",
+    "../../rtc_base:rtc_base_approved",
+    "../../rtc_base/system:rtc_export",
+    "../units:data_rate",
+  ]
+  absl_deps = [
+    "//third_party/abseil-cpp/absl/container:inlined_vector",
+    "//third_party/abseil-cpp/absl/types:optional",
+  ]
+}
+

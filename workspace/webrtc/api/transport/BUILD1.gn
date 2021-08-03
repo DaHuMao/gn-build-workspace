@@ -149,7 +149,7 @@ if (rtc_include_tests) {
       "../../rtc_base",
       "../../rtc_base:rtc_base_approved",
       "../../rtc_base:socket_address",
-#      "../../test:test_support",
+      "../../test:test_support",
       "//testing/gtest",
     ]
   }
@@ -161,7 +161,7 @@ if (rtc_include_tests) {
     sources = [ "test/mock_network_control.h" ]
     deps = [
       ":network_control",
-#      "../../test:test_support",
+      "../../test:test_support",
     ]
   }
 }

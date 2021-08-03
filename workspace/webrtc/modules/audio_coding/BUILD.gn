@@ -1,0 +1,39 @@
+# Copyright (c) 2014 The WebRTC project authors. All Rights Reserved.
+#
+# Use of this source code is governed by a BSD-style license
+# that can be found in the LICENSE file in the root of the source
+# tree. An additional intellectual property rights grant can be found
+# in the file PATENTS.  All contributing project authors may
+# be found in the AUTHORS file in the root of the source tree.
+
+import("../../webrtc.gni")
+#import("audio_coding.gni")
+visibility = [ ":*" ]
+rtc_source_set("isac_bwinfo") {
+  sources = [ "codecs/isac/bandwidth_info.h" ]
+  deps = []
+}
+
+rtc_library("isac_vad") {
+  visibility += webrtc_default_visibility
+  sources = [
+    "codecs/isac/main/source/filter_functions.c",
+    "codecs/isac/main/source/filter_functions.h",
+    "codecs/isac/main/source/isac_vad.c",
+    "codecs/isac/main/source/isac_vad.h",
+    "codecs/isac/main/source/os_specific_inline.h",
+    "codecs/isac/main/source/pitch_estimator.c",
+    "codecs/isac/main/source/pitch_estimator.h",
+    "codecs/isac/main/source/pitch_filter.c",
+    "codecs/isac/main/source/pitch_filter.h",
+    "codecs/isac/main/source/settings.h",
+    "codecs/isac/main/source/structs.h",
+  ]
+  deps = [
+    ":isac_bwinfo",
+    "../../rtc_base:compile_assert_c",
+    "../../rtc_base/system:arch",
+    "../../rtc_base/system:ignore_warnings",
+    "../third_party/fft",
+  ]
+}
