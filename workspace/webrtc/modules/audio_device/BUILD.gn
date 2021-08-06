@@ -364,7 +364,7 @@ rtc_source_set("mock_audio_device") {
     ":audio_device_buffer",
     ":audio_device_impl",
     "../../rtc_base:refcount",
-#    #"../../test:test_support",
+    "../../test:test_support",
   ]
 }
 
@@ -392,8 +392,8 @@ if (rtc_include_tests && !build_with_chromium) {
       "../../rtc_base:rtc_base_approved",
       "../../rtc_base/synchronization:mutex",
       "../../system_wrappers",
-#      "../../test:fileutils",
-#      "../../test:test_support",
+      "../../test:fileutils",
+      "../../test:test_support",
       "../utility",
     ]
     absl_deps = [ "//third_party/abseil-cpp/absl/types:optional" ]

@@ -32,7 +32,7 @@ if (rtc_include_tests) {
       "..:aec_dump_interface",
       "..:audioproc_test_utils",
       "../",
-#      "../../../test:test_support",
+      "../../../test:test_support",
     ]
   }
 
@@ -90,8 +90,8 @@ if (rtc_enable_protobuf) {
         "..:audioproc_debug_proto",
         "../",
         "../../../rtc_base:task_queue_for_test",
-#        "../../../test:fileutils",
-#        "../../../test:test_support",
+        "../../../test:fileutils",
+        "../../../test:test_support",
         "//testing/gtest",
       ]
       sources = [ "aec_dump_unittest.cc" ]

@@ -48,7 +48,7 @@ rtc_library("mock_process_thread") {
   deps = [
     ":utility",
     "../../rtc_base:rtc_base_approved",
-#    #"../../test:test_support",
+    "../../test:test_support",
   ]
 }
 
@@ -63,7 +63,7 @@ if (rtc_include_tests) {
       "../../api/task_queue",
       "../../api/task_queue:task_queue_test",
       "../../rtc_base:rtc_base_approved",
-#      "../../test:test_support",
+      "../../test:test_support",
     ]
   }
 }

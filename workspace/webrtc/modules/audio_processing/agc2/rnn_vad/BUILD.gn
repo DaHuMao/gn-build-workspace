@@ -227,8 +227,8 @@ if (rtc_include_tests) {
       "../../../../api:scoped_refptr",
       "../../../../rtc_base:checks",
       "../../../../rtc_base:safe_compare",
-#      "../../../../test:fileutils",
-#      "../../../../test:test_support",
+      "../../../../test:fileutils",
+      "../../../../test:test_support",
     ]
   }
 
@@ -298,7 +298,7 @@ if (rtc_include_tests) {
       "../../../../rtc_base:safe_conversions",
       "../../../../rtc_base:stringutils",
       "../../../../rtc_base/system:arch",
-#      "../../../../test:test_support",
+      "../../../../test:test_support",
       "../../utility:pffft_wrapper",
       "//third_party/rnnoise:rnn_vad",
     ]
@@ -324,7 +324,7 @@ if (rtc_include_tests) {
         "../../../../common_audio",
         "../../../../rtc_base:rtc_base_approved",
         "../../../../rtc_base:safe_compare",
-#        "../../../../test:test_support",
+        "../../../../test:test_support",
         "//third_party/abseil-cpp/absl/flags:flag",
         "//third_party/abseil-cpp/absl/flags:parse",
       ]

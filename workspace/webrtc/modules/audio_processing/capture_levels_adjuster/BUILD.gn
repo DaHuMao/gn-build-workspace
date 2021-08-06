@@ -28,18 +28,3 @@ rtc_library("capture_levels_adjuster") {
   ]
 }
 
-rtc_library("capture_levels_adjuster_unittests") {
-  testonly = true
-
-  sources = [
-    "audio_samples_scaler_unittest.cc",
-    "capture_levels_adjuster_unittest.cc",
-  ]
-  deps = [
-    ":capture_levels_adjuster",
-    "..:audioproc_test_utils",
-    "../../../rtc_base:gunit_helpers",
-    "../../../rtc_base:stringutils",
-#    "../../../test:test_support",
-  ]
-}

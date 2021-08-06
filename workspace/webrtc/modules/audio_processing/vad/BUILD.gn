@@ -60,8 +60,8 @@ if (rtc_include_tests) {
     deps = [
       ":vad",
       "../../../common_audio",
-#      "../../../test:fileutils",
-#      "../../../test:test_support",
+      "../../../test:fileutils",
+      "../../../test:test_support",
       "//testing/gmock",
       "//testing/gtest",
     ]

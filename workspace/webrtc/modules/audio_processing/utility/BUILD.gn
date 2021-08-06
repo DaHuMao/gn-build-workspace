@@ -51,7 +51,7 @@ if (rtc_include_tests) {
     deps = [
       ":cascaded_biquad_filter",
       "../../../rtc_base:rtc_base_approved",
-#      "../../../test:test_support",
+      "../../../test:test_support",
       "//testing/gtest",
     ]
   }
@@ -63,7 +63,7 @@ if (rtc_include_tests) {
     deps = [
       ":legacy_delay_estimator",
       "../../../rtc_base:rtc_base_approved",
-#      "../../../test:test_support",
+      "../../../test:test_support",
       "//testing/gtest",
     ]
   }
@@ -73,7 +73,7 @@ if (rtc_include_tests) {
     sources = [ "pffft_wrapper_unittest.cc" ]
     deps = [
       ":pffft_wrapper",
-#      "../../../test:test_support",
+      "../../../test:test_support",
       "//testing/gtest",
       "//third_party/pffft",
     ]

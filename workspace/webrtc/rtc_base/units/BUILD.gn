@@ -27,7 +27,7 @@ if (rtc_include_tests) {
     sources = [ "unit_base_unittest.cc" ]
     deps = [
       ":unit_base",
-#      "../../test:test_support",
+      "../../test:test_support",
     ]
   }
 }

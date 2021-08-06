@@ -62,7 +62,7 @@ bool CheckWavParameters(size_t num_channels,
                         WavFormat format,
                         size_t num_samples);
 
-// Write a kWavHeaderSize bytes long WAV header to buf. The payload that
+// Write a kPcmWavHeaderSize bytes long WAV header to buf. The payload that
 // follows the header is supposed to have the specified number of interleaved
 // channels and contain the specified total number of samples of the specified
 // type. The size of the header is returned in header_size. CHECKs the input

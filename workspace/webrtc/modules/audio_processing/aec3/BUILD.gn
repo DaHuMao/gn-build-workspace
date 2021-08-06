@@ -310,8 +310,8 @@ if (rtc_include_tests) {
       "../../../rtc_base:safe_minmax",
       "../../../rtc_base/system:arch",
       "../../../system_wrappers",
-#      "../../../test:field_trial",
-#      "../../../test:test_support",
+      "../../../test:field_trial",
+      "../../../test:test_support",
       "../utility:cascaded_biquad_filter",
     ]
     absl_deps = [ "//third_party/abseil-cpp/absl/types:optional" ]

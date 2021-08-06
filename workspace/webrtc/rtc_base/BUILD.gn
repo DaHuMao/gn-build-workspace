@@ -652,10 +652,10 @@ rtc_library("rtc_json") {
     "strings/json.h",
   ]
   deps = [ ":stringutils" ]
-  all_dependent_configs = [ "third_party/jsoncpp:jsoncpp_config" ]
+  all_dependent_configs = [ "//third_party/jsoncpp:jsoncpp_config" ]
   if (rtc_build_json) {
     public_deps =  # no-presubmit-check TODO(webrtc:8603)
-        [ "third_party/jsoncpp" ]
+        [ "//third_party/jsoncpp" ]
   } else {
     include_dirs = [ "$rtc_jsoncpp_root" ]
 
@@ -1123,7 +1123,7 @@ rtc_library("gunit_helpers") {
     ":rtc_base_tests_utils",
     ":stringutils",
     ":threading",
-#    "../test:test_support",
+     "../test:test_support",
   ]
   absl_deps = [ "//third_party/abseil-cpp/absl/strings" ]
 }
@@ -1154,7 +1154,7 @@ rtc_library("callback_list_unittests") {
     ":gunit_helpers",
     ":rtc_base",
     "../api:function_view",
-#    "../test:test_support",
+    "../test:test_support",
   ]
 }
 
@@ -1247,7 +1247,7 @@ if (rtc_include_tests) {
       ":gunit_helpers",
       ":rtc_base",
       ":rtc_base_tests_utils",
-#      "../test:test_support",
+      "../test:test_support",
       "synchronization:mutex",
       "third_party/sigslot",
     ]
@@ -1258,7 +1258,7 @@ if (rtc_include_tests) {
     sources = [ "untyped_function_unittest.cc" ]
     deps = [
       ":untyped_function",
-#      "../test:test_support",
+      "../test:test_support",
     ]
   }
 
@@ -1273,7 +1273,7 @@ if (rtc_include_tests) {
       ":rtc_event",
       ":rtc_operations_chain",
       ":threading",
-#      "../test:test_support",
+      "../test:test_support",
     ]
   }
 
@@ -1305,9 +1305,9 @@ if (rtc_include_tests) {
         ":testclient",
         ":threading",
         "../system_wrappers",
-#        "../test:fileutils",
-#        "../test:test_main",
-#        "../test:test_support",
+        "../test:fileutils",
+        "../test:test_main",
+        "../test:test_support",
         "third_party/sigslot",
         "//testing/gtest",
       ]
@@ -1392,9 +1392,9 @@ if (rtc_include_tests) {
         "../api/numerics",
         "../api/units:time_delta",
         "../system_wrappers",
-#        "../test:fileutils",
-#        "../test:test_main",
-#        "../test:test_support",
+        "../test:fileutils",
+        "../test:test_main",
+        "../test:test_support",
         "memory:unittests",
         "synchronization:mutex",
         "task_utils:to_queued_task",
@@ -1417,8 +1417,8 @@ if (rtc_include_tests) {
         ":rtc_base_tests_utils",
         ":rtc_task_queue",
         ":task_queue_for_test",
-#        "../test:test_main",
-#        "../test:test_support",
+        "../test:test_main",
+        "../test:test_support",
       ]
       absl_deps = [ "//third_party/abseil-cpp/absl/memory" ]
     }
@@ -1434,8 +1434,8 @@ if (rtc_include_tests) {
         ":rtc_event",
         ":task_queue_for_test",
         ":weak_ptr",
-#        "../test:test_main",
-#        "../test:test_support",
+        "../test:test_main",
+        "../test:test_support",
       ]
     }
 
@@ -1454,8 +1454,8 @@ if (rtc_include_tests) {
       deps = [
         ":rtc_base_approved",
         ":rtc_numerics",
-#        "../test:test_main",
-#        "../test:test_support",
+        "../test:test_main",
+        "../test:test_support",
       ]
       absl_deps = [ "//third_party/abseil-cpp/absl/algorithm:container" ]
     }
@@ -1468,8 +1468,8 @@ if (rtc_include_tests) {
         ":gunit_helpers",
         ":rtc_base_tests_utils",
         ":rtc_json",
-#        "../test:test_main",
-#        "../test:test_support",
+        "../test:test_main",
+        "../test:test_support",
       ]
     }
 
@@ -1514,11 +1514,11 @@ if (rtc_include_tests) {
         "../api:array_view",
         "../api/task_queue",
         "../api/task_queue:task_queue_test",
-#        "../test:field_trial",
-#        "../test:fileutils",
-#        "../test:rtc_expect_death",
-#        "../test:test_main",
-#        "../test:test_support",
+        "../test:field_trial",
+        "../test:fileutils",
+        "../test:rtc_expect_death",
+        "../test:test_main",
+        "../test:test_support",
         "memory:fifo_buffer",
         "synchronization:mutex",
         "task_utils:pending_task_safety_flag",

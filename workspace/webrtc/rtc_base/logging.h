@@ -707,6 +707,10 @@ inline const char* AdaptString(const std::string& str) {
 #define RTC_DLOG_F(sev) RTC_DLOG_EAT_STREAM_PARAMS()
 #endif
 
+#define LOGI_TAG(tag) RTC_LOG_TAG(rtc::LS_INFO, tag)
+#define LOGW_TAG(tag) RTC_LOG_TAG(rtc::LS_WARNING, tag)
+#define LOGE_TAG(tag) RTC_LOG_TAG(rtc::LS_ERROR, tag)
+
 }  // namespace rtc
 
 #endif  // RTC_BASE_LOGGING_H_

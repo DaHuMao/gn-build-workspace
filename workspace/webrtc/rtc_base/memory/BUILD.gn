@@ -52,6 +52,6 @@ rtc_library("unittests") {
   deps = [
     ":aligned_malloc",
     ":fifo_buffer",
-#    "../../test:test_support",
+    "../../test:test_support",
   ]
 }

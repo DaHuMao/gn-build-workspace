@@ -79,8 +79,8 @@ if (rtc_include_tests) {
         "../../../rtc_base:rtc_base_approved",
         "../../../rtc_base/system:file_wrapper",
         "../../../system_wrappers",
-#        "../../../test:fileutils",
-#        "../../../test:test_support",
+        "../../../test:fileutils",
+        "../../../test:test_support",
         "../agc:level_estimation",
         "//testing/gtest",
         "//third_party/abseil-cpp/absl/flags:flag",
@@ -106,8 +106,8 @@ if (rtc_include_tests) {
       ":transient_suppressor_impl",
       "../../../rtc_base:stringutils",
       "../../../rtc_base/system:file_wrapper",
-#      "../../../test:fileutils",
-#      "../../../test:test_support",
+      "../../../test:fileutils",
+      "../../../test:test_support",
       "//testing/gtest",
     ]
   }

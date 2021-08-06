@@ -40,7 +40,7 @@ if (rtc_include_tests) {
       ":file_wrapper",
       "//rtc_base:checks",
       "//test:fileutils",
-#      "//test:test_support",
+      "//test:test_support",
     ]
   }
 }

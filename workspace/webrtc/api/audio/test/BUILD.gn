@@ -25,7 +25,7 @@ if (rtc_include_tests) {
       "..:aec3_config_json",
       "..:audio_frame_api",
       "../../../rtc_base:rtc_base_approved",
-#      "../../../test:test_support",
+      "../../../test:test_support",
     ]
   }
 }

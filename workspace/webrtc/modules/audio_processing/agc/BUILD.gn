@@ -106,9 +106,9 @@ if (rtc_include_tests) {
       ":gain_control_interface",
       ":level_estimation",
       "..:mocks",
-#      "../../../test:field_trial",
-#      "../../../test:fileutils",
-#      "../../../test:test_support",
+      "../../../test:field_trial",
+      "../../../test:fileutils",
+      "../../../test:test_support",
       "//testing/gtest",
     ]
   }

@@ -91,7 +91,7 @@ rtc_source_set("tick_timer_unittest") {
   sources = [ "tick_timer_unittest.cc" ]
   deps = [
     ":tick_timer",
-#    "../../test:test_support",
+    "../../test:test_support",
     "//testing/gtest",
   ]
 }

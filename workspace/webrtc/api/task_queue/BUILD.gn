@@ -52,7 +52,7 @@ rtc_library("task_queue_test") {
     # because this will break the WebRTC component build in Chromium.
     deps = [
       "../../../webrtc_overrides:webrtc_component",
-#      "../../test:test_support",
+      "../../test:test_support",
     ]
     absl_deps = [
       "//third_party/abseil-cpp/absl/memory",
@@ -65,7 +65,7 @@ rtc_library("task_queue_test") {
       "../../rtc_base:rtc_event",
       "../../rtc_base:timeutils",
       "../../rtc_base/task_utils:to_queued_task",
-#      #"../../test:test_support",
+      "../../test:test_support",
     ]
     absl_deps = [
       "//third_party/abseil-cpp/absl/memory",
@@ -76,9 +76,9 @@ rtc_library("task_queue_test") {
 
 rtc_library("default_task_queue_factory") {
   visibility = [ "*" ]
-  if (!is_ios && !is_android) {
-    poisonous = [ "default_task_queue" ]
-  }
+  #if (!is_ios && !is_android) {
+  #  poisonous = [ "default_task_queue" ]
+  #}
   sources = [ "default_task_queue_factory.h" ]
   deps = [ ":task_queue" ]
 
@@ -104,7 +104,7 @@ if (rtc_include_tests) {
     deps = [
       ":default_task_queue_factory",
       ":task_queue_test",
-#      "../../test:test_support",
+      "../../test:test_support",
     ]
   }
 }

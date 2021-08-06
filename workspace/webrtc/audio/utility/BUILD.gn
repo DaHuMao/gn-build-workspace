@@ -20,6 +20,8 @@ rtc_library("audio_frame_operations") {
     "channel_mixer.h",
     "channel_mixing_matrix.cc",
     "channel_mixing_matrix.h",
+    "common_tool.h",
+    "common_tool.cc"
   ]
 
   deps = [
@@ -45,9 +47,9 @@ if (rtc_include_tests) {
       "../../api/audio:audio_frame_api",
       "../../rtc_base:checks",
       "../../rtc_base:rtc_base_approved",
-#      "../../test:field_trial",
-#      #"../../test:test_support",
-      #"//testing/gtest",
+      "../../test:field_trial",
+      "../../test:test_support",
+      "//testing/gtest",
     ]
   }
 }
