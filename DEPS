@@ -7,6 +7,8 @@ deps = {
   'tools/swarming_client':
     'https://chromium.googlesource.com/infra/luci/client-py.git@a32a1607f6093d338f756c7e7c7b4333b0c50c9c',
 
+
+
   'build':
     'https://chromium.googlesource.com/chromium/src/build@833c1f757f772e19c858e8d327b51de052ea0f12',
   'buildtools':
@@ -30,6 +32,33 @@ deps = {
     ],
     'dep_type': 'cipd',
     'condition': 'checkout_mac',
+  },
+  'tools/clang/dsymutil': {
+    'packages': [
+      {
+        'package': 'chromium/llvm-build-tools/dsymutil',
+        'version': 'M56jPzDv1620Rnm__jTMYS62Zi8rxHVq7yw0qeBFEgkC',
+      },
+    ],
+    'condition': 'checkout_mac',
+    'dep_type': 'cipd',
+  },
+  'tools/luci-go': {
+      'packages': [
+        {
+          'package': 'infra/tools/luci/isolate/${{platform}}',
+          'version': 'git_revision:e1c81c53ccd0366e8fff438f89030043343d4d6b',
+        },
+        {
+          'package': 'infra/tools/luci/isolated/${{platform}}',
+          'version': 'git_revision:e1c81c53ccd0366e8fff438f89030043343d4d6b',
+        },
+        {
+          'package': 'infra/tools/luci/swarming/${{platform}}',
+          'version': 'git_revision:e1c81c53ccd0366e8fff438f89030043343d4d6b',
+        },
+      ],
+      'dep_type': 'cipd',
   },
   'buildtools/win': {
     'packages': [
@@ -72,10 +101,7 @@ deps = {
     'https://chromium.googlesource.com/chromium/src/testing@0db537b72006c9ec7b75214bf2c728443b77bf4d',
 
   'third_party/ffmpeg/src':
-    'https://github.com/FFmpeg/FFmpeg.git@fdd45ebf5563564a23e93d6c6bdcc43d481b419c'
-
-  'third_party/libyuv':
-    'https://chromium.googlesource.com/libyuv/libyuv.git@a8c181050c202854ae32433164e6bd5d1e7c4368',
+    'https://github.com/FFmpeg/FFmpeg.git@fdd45ebf5563564a23e93d6c6bdcc43d481b419c',
 
 }
 
