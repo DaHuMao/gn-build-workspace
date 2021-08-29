@@ -15,6 +15,11 @@
 #include <pthread.h>
 #endif
 #include <string>
+#include <atomic>
+#include <functional>
+#include <mutex>
+#include <condition_variable>
+#include <vector>
 
 #include "absl/strings/string_view.h"
 #include "api/sequence_checker.h"
@@ -99,6 +104,60 @@ class PlatformThread {
   RTC_DISALLOW_COPY_AND_ASSIGN(PlatformThread);
 };
 
+//----------------------  ThreadHandle ----------------------------------//
+enum class ThreadStatus {
+  kPrepareStart,
+  kRunning,
+  kWait,
+  kWaitForCondition,
+  kPrepareStop,
+  kStop,
+};
+class ThreadHandle {
+public:
+  ThreadHandle(const char* thread_name = "ThreadHandle",
+      rtc::ThreadPriority thread_priority = rtc::kNormalPriority);
+  virtual ~ThreadHandle();
+  ThreadStatus Start();
+  ThreadStatus Stop();
+  ThreadStatus GetStatus();
+  // thread blocked until |WakeUp| is called
+  ThreadStatus Suspend();
+  // thread wait and Check if |ped| is true every |wait_time_ms| ms
+  // if |pred| is true or WakeUp is called, The thread will end blocking
+  ThreadStatus Suspend(size_t wait_time_ms, std::function<bool(void)> condition);
+  ThreadStatus WakeUp();
+
+  static std::unique_ptr<ThreadHandle> CreateThread(std::function<bool(void)> handle_func, const char* thread_name = "ThreadHandle",
+     rtc::ThreadPriority thread_priority = rtc::kNormalPriority);
+
+protected:
+  virtual bool Handle() = 0;
+  virtual void FuctionIsOver();
+
+private:
+  bool IsThisStatus(const std::vector<ThreadStatus>& thread_status);
+  bool SetStatus(ThreadStatus thread_status_vector);
+  void Run();
+
+  const std::string name_;
+  const ThreadPriority priority_ = kNormalPriority;
+  std::atomic<ThreadStatus> status_;
+  std::mutex mutex_;
+  std::condition_variable cond_;
+  std::function<bool(void)> end_wait_cond_;
+  size_t wait_time_ms_ = 10;
+
+#if defined(WEBRTC_WIN)
+  static DWORD WINAPI RunThread(void* obj);
+  HANDLE thread_ = nullptr;
+  DWORD thread_id_ = 0;
+#else
+  static void* RunThread(void *obj);
+  pthread_t thread_ = 0;
+#endif  // defined(WEBRTC_WIN)
+};
+//----------------------  ThreadHandle ----------------------------------//
 }  // namespace rtc
 
 #endif  // RTC_BASE_PLATFORM_THREAD_H_

@@ -1564,22 +1564,22 @@ if (rtc_include_tests) {
   }
 }
 
-if (is_android) {
-  rtc_android_library("base_java") {
-    visibility = [ "*" ]
-    sources = [
-      "java/src/org/webrtc/ContextUtils.java",
-      "java/src/org/webrtc/Loggable.java",
-      "java/src/org/webrtc/Logging.java",
-      "java/src/org/webrtc/Size.java",
-      "java/src/org/webrtc/ThreadUtils.java",
-    ]
-    deps = [
-      "//third_party/android_deps:com_android_support_support_annotations_java",
-    ]
-  }
-  java_cpp_enum("network_monitor_enums") {
-    sources = [ "network_monitor.h" ]
-    visibility = [ "*" ]
-  }
-}
+#if (is_android) {
+#  rtc_android_library("base_java") {
+#    visibility = [ "*" ]
+#    sources = [
+#      "java/src/org/webrtc/ContextUtils.java",
+#      "java/src/org/webrtc/Loggable.java",
+#      "java/src/org/webrtc/Logging.java",
+#      "java/src/org/webrtc/Size.java",
+#      "java/src/org/webrtc/ThreadUtils.java",
+#    ]
+#    deps = [
+#      "//third_party/android_deps:com_android_support_support_annotations_java",
+#    ]
+#  }
+#  java_cpp_enum("network_monitor_enums") {
+#    sources = [ "network_monitor.h" ]
+#    visibility = [ "*" ]
+#  }
+#}

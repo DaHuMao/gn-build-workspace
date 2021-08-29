@@ -1,4 +1,5 @@
 #include "webrtc/audio/utility/common_tool.h"
+#include "webrtc/rtc_base/checks.h"
 
 namespace webrtc {
 
@@ -85,82 +86,8 @@ size_t RingBufferWrapper::CalculatedExpansionCapacity(size_t write_size) {
     new_size *= 2;
   }
   RTC_DCHECK(write_size <= kMaxBufferSize);
-  return std::min(new_size, kMaxBufferSize);
+  return new_size > kMaxBufferSize ?  kMaxBufferSize : new_size;
 }
 //-------------    RingBufferWrapper   ---------------//
-
-//-------------    ThreadHandle   ---------------//
-ThreadHandle::ThreadHandle(rtc::ThreadPriority thread_priority, const char* thread_name)
-  : is_stop_(true),
-    thread_handle_(std::make_unique<rtc::PlatformThread>(ThreadHandle::RunThread,
-          this, thread_name, thread_priority)) {}
-
-ThreadHandle::~ThreadHandle() {
-  if (nullptr != thread_handle_) {
-    thread_handle_->Stop();
-  }
-}
-
-void ThreadHandle::FuctionIsOver() {}
-
-bool ThreadHandle::Start() {
-  if (is_stop_ && nullptr != thread_handle_) {
-    thread_handle_->Start();
-    is_stop_ = !thread_handle_->IsRunning();
-  }
-  return !is_stop_;
-}
-
-bool ThreadHandle::Stop() {
-  if (!is_stop_ && nullptr != thread_handle_) {
-    thread_handle_->Stop();
-    is_stop_ = !thread_handle_->IsRunning();
-  }
-  return is_stop_;
-}
-
-bool  ThreadHandle::IsRunning() {
-  return nullptr == thread_handle_ ? false : thread_handle_->IsRunning();
-}
-
-void ThreadHandle::RunThread(void* obj) {
-  ThreadHandle* handle_ptr = reinterpret_cast<ThreadHandle*>(obj);
-  bool ret = true;
-  while(ret) {
-    if (nullptr != handle_ptr) {
-      ret = handle_ptr->Handle();
-      if (!ret) {
-        handle_ptr->FuctionIsOver();
-      }
-    }
-  }
-}
-
-class ThreadHandleImpl final : public ThreadHandle {
-public:
-  ThreadHandleImpl(std::function<bool(void)> handle_func,
-      const char* thread_name,rtc::ThreadPriority thread_priority);
-private:
-  bool Handle() override;
-
-private:
-  std::function<bool(void)> handle_func_;
-};
-
-ThreadHandleImpl::ThreadHandleImpl(std::function<bool(void)> handle_func,
-    const char* thread_name,rtc::ThreadPriority thread_priority) :
-  ThreadHandle(thread_priority, thread_name),
-  handle_func_(handle_func) {}
-
-bool ThreadHandleImpl::Handle() {
-  return handle_func_();
-}
-
-std::unique_ptr<ThreadHandle> ThreadHandle::CreateThread(std::function<bool(void)> handle_func, const char* thread_name,
-    rtc::ThreadPriority thread_priority) {
-  return std::unique_ptr<ThreadHandle>(new ThreadHandleImpl(handle_func, thread_name, thread_priority));
-}
-
-//-------------    ThreadHandle   ---------------//
 
 } // webrtc

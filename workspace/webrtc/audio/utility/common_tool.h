@@ -7,10 +7,6 @@
 #ifndef WEBRTC_AUDIO_UTILITY_COMMON_TOOL_H_
 #define WEBRTC_AUDIO_UTILITY_COMMON_TOOL_H_
 
-#include <atomic>
-#include <functional>
-
-#include "webrtc/rtc_base/platform_thread.h"
 #include "webrtc/common_audio/ring_buffer.h"
 
 namespace webrtc {
@@ -43,37 +39,6 @@ private:
   bool auto_adjust_capacity_; // Automatically adjusts buffer capacity
 };
 //----------------------  CacheBuffer ----------------------------------//
-
-//----------------------  ThreadHandle ----------------------------------//
-class ThreadHandle {
-public:
-  ThreadHandle(rtc::ThreadPriority thread_priority = rtc::kNormalPriority,
-      const char* thread_name = "ThreadHandle");
-  virtual ~ThreadHandle();
-  virtual bool Start();
-  virtual bool Stop();
-  virtual bool IsRunning();
-
-  static std::unique_ptr<ThreadHandle> CreateThread(std::function<bool(void)> handle_func, const char* thread_name = "ThreadHandle",
-     rtc::ThreadPriority thread_priority = rtc::kNormalPriority);
-
-protected:
-  virtual bool Handle() = 0;
-  virtual void FuctionIsOver();
-  static void RunThread(void *obj);
-protected:
-  /*
-   * <is_running_> indicates whether the thread function is running
-   * <is_stop_> indicates whether the thread has been called Stop() function
-   * This means that <is_stop_> is not necessarily TRUE if is_running_ is FALSE, and <is_running_> is FALSE
-   * may be due to thread function exit, but it does not mean that the Stop() function has been called,
-   * because calling the Stop() function may be accompanied by some resource release.
-   * On the contrary, <is_stop_> is TRUE, <is_running_> must be FALSE
-   * */
-  std::atomic<bool> is_stop_;
-  std::unique_ptr<rtc::PlatformThread> thread_handle_;
-};
-//----------------------  ThreadHandle ----------------------------------//
 
 } // namespace fenbi
 #endif // WEBRTC_AUDIO_UTILITY_COMMON_TOOL_H_
